@@ -13,17 +13,7 @@ The MS5637 peripheral module provides the necessary hardware to interface the MS
 *	I2C communication
 *	Fully calibrated
 *	Fast response time
-*	Very low power consumption 
-
-###Features
-*	12-pin connector compatible with Digilent Pmod™ 
-*	I2C interface
-*	Secondary 12-pin connector allows daisy chain
-*	FPGA bare metal drivers available for download
-*	µC C code drivers available for download
-*	24 bit resolution for pressure
-*	24 bit resolution for temperature
-*	Parameters stored on chip
+*	Very low power consumption
 
 
 ##Library features
