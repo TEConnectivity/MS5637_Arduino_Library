@@ -157,11 +157,6 @@ enum ms5637_status ms5637::read_eeprom(void) {
     if (status != ms5637_status_ok)
       return status;
   }
-  for (i = 0; i < 9; i++) {
-    Serial.print("Coeff");
-    Serial.print(i);
-    Serial.println(eeprom_coeff[i]);
-  }
 
   if (!crc_check(eeprom_coeff, eeprom_coeff[MS5637_CRC_INDEX] & 0x000F))
     return ms5637_status_crc_error;
