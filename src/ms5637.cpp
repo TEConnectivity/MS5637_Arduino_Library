@@ -157,8 +157,7 @@ enum ms5637_status ms5637::read_eeprom(void) {
     if (status != ms5637_status_ok)
       return status;
   }
-
-  if (!crc_check(eeprom_coeff, eeprom_coeff[MS5637_CRC_INDEX] & 0x000F))
+  if (!crc_check(eeprom_coeff, (eeprom_coeff[MS5637_CRC_INDEX] & 0xF000) >> 12))
     return ms5637_status_crc_error;
 
   coeff_read = true;
@@ -175,28 +174,33 @@ enum ms5637_status ms5637::read_eeprom(void) {
 * \return bool : TRUE if CRC is OK, FALSE if KO
 */
 boolean ms5637::crc_check(uint16_t *n_prom, uint8_t crc) {
-  int cnt;                // simple counter
-  unsigned int n_rem = 0; // crc reminder
-  unsigned char n_bit;
+  uint8_t cnt, n_bit;
+  uint16_t n_rem, crc_read;
 
-  n_prom[0] = ((n_prom[0]) & 0x0FFF); // CRC byte is replaced by 0
-  n_prom[7] = 0;                      // Subsidiary value, set to 0
+  n_rem = 0x00;
+  crc_read = n_prom[0];
+  n_prom[MS5637_COEFFICIENT_COUNT] = 0;
+  n_prom[0] = (0x0FFF & (n_prom[0])); // Clear the CRC byte
 
-  for (cnt = 0; cnt < 16; cnt++) // operation is performed on bytes
-  {                              // choose LSB or MSB
+  for (cnt = 0; cnt < (MS5637_COEFFICIENT_COUNT + 1) * 2; cnt++) {
+
+    // Get next byte
     if (cnt % 2 == 1)
-      n_rem ^= (unsigned short)((n_prom[cnt >> 1]) & 0x00FF);
+      n_rem ^= n_prom[cnt >> 1] & 0x00FF;
     else
-      n_rem ^= (unsigned short)(n_prom[cnt >> 1] >> 8);
+      n_rem ^= n_prom[cnt >> 1] >> 8;
 
     for (n_bit = 8; n_bit > 0; n_bit--) {
-      if (n_rem & (0x8000))
+
+      if (n_rem & 0x8000)
         n_rem = (n_rem << 1) ^ 0x3000;
       else
-        n_rem = (n_rem << 1);
+        n_rem <<= 1;
     }
   }
-  n_rem = ((n_rem >> 12) & 0x000F); // final 4-bit reminder is CRC code
+  n_rem >>= 12;
+  n_prom[0] = crc_read;
+
   return (n_rem == crc);
 }
 

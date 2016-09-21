@@ -4,7 +4,7 @@
 #include "WProgram.h"
 #endif
 
-#define MS5637_COEFFICIENT_COUNT 8
+#define MS5637_COEFFICIENT_COUNT 7
 
 #define MS5637_CONVERSION_TIME_OSR_256 1
 #define MS5637_CONVERSION_TIME_OSR_512 2
@@ -92,7 +92,7 @@ private:
   enum ms5637_status conversion_and_read_adc(uint8_t cmd, uint32_t *adc);
   enum ms5637_status read_eeprom(void);
 
-  uint16_t eeprom_coeff[MS5637_COEFFICIENT_COUNT];
+  uint16_t eeprom_coeff[MS5637_COEFFICIENT_COUNT+1];
   bool coeff_read = false;
   enum ms5637_status ms5637_write_command(uint8_t);
   enum ms5637_status ms5637_read_eeprom_coeff(uint8_t, uint16_t *);
