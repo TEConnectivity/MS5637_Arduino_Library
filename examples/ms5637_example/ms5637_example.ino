@@ -18,17 +18,18 @@ void loop(void) {
 
   connected = m_ms5637.is_connected();
   if (connected) {
-    Serial.println(OK ? "Sensor Connected" : "Sensor Disconnected");
+    Serial.println(connected ? "Sensor Connected" : "Sensor Disconnected");
 
     status = m_ms5637.read_temperature_and_pressure(&temperature, &pressure);
 
     Serial.print("---Temperature = ");
     Serial.print(temperature, 1);
-    Serial.println(" C");
+    Serial.print((char)176);
+    Serial.println("C");
 
     Serial.print("---Pressure = ");
     Serial.print(pressure, 1);
-    Serial.println(" hPa");
+    Serial.println("hPa");
   } else {
     Serial.println(connected ? "Sensor Connected" : "Sensor Disconnected");
   }
