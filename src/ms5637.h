@@ -42,6 +42,11 @@ public:
   ms5637();
 
   /**
+   * \brief Perform initial configuration. Has to be called once.
+   */
+  void begin();
+
+  /**
   * \brief Check whether MS5637 device is connected
   *
   * \return bool : status of MS5637
@@ -92,7 +97,7 @@ private:
   enum ms5637_status conversion_and_read_adc(uint8_t cmd, uint32_t *adc);
   enum ms5637_status read_eeprom(void);
 
-  uint16_t eeprom_coeff[MS5637_COEFFICIENT_COUNT+1];
+  uint16_t eeprom_coeff[MS5637_COEFFICIENT_COUNT + 1];
   bool coeff_read = false;
   enum ms5637_status ms5637_write_command(uint8_t);
   enum ms5637_status ms5637_read_eeprom_coeff(uint8_t, uint16_t *);

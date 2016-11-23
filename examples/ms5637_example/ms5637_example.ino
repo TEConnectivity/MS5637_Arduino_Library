@@ -9,6 +9,8 @@ void setup(void) {
   Serial.println("==== TE Connectivity ====");
   Serial.println("======== MS5637 =========");
   Serial.println("======== Measure =========");
+
+  m_ms5637.begin();
 }
 void loop(void) {
   ms5637_status status;

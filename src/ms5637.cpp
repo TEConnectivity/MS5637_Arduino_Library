@@ -38,7 +38,14 @@
 * \brief Class constructor
 *
 */
-ms5637::ms5637(void) { Wire.begin(); }
+ms5637::ms5637(void) {}
+
+/**
+ * \brief Perform initial configuration. Has to be called once.
+ */
+void ms5637::begin(void) {
+  Wire.begin();
+}
 
 /**
 * \brief Check whether MS5637 device is connected
